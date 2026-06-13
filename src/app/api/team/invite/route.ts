@@ -11,7 +11,7 @@ const InviteSchema = z.object({
 
 const INVITE_TTL_HOURS = 72;
 
-export const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');
+const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');
 
 /**
  * POST /api/team/invite — ADMIN فقط
