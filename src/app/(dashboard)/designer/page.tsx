@@ -201,7 +201,7 @@ export default function VisualDesigner() {
                 <g key={`panel-${i}`}>
                   <rect x={currentX} y={frameThickness} width={panelDrawWidth} height={panelDrawHeight} fill={state.systemType === 'SLIDING' && i % 2 !== 0 ? '#f1f5f9' : '#ffffff'} stroke="#94a3b8" strokeWidth="6" />
                   <rect x={currentX + sashThickness} y={frameThickness + sashThickness} width={panelDrawWidth - sashThickness * 2} height={panelDrawHeight - sashThickness * 2} fill="#e0f2fe" fillOpacity="0.6" stroke="#cbd5e1" strokeWidth="2" />
-                  <text x={currentX + panelDrawWidth / 2} y={frameThickness + panelDrawHeight / 2} fill="#0369a1" fontSize="35" fontWeight="bold" textAnchor="middle" className="font-mono" dir="ltr">
+                  <text x={currentX + panelDrawWidth / 2} y={frameThickness + panelDrawHeight / 2} fill="#0369a1" fontSize="35" fontWeight="bold" textAnchor="middle" className="font-mono">
                     G: {calculations.glassWidth.toFixed(0)}
                   </text>
                 </g>
