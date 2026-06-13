@@ -163,7 +163,7 @@ export default function VisualDesigner() {
 
         <div className="flex-1 flex items-center justify-center p-8 overflow-hidden">
           <svg className="w-full h-full max-h-[80vh] drop-shadow-xl" viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
-            <g dir="ltr">
+            <g>
               <line x1="0" y1="-80" x2={state.width} y2="-80" stroke="#64748b" strokeWidth="4" />
               <line x1="0" y1="-100" x2="0" y2="-60" stroke="#64748b" strokeWidth="6" />
               <line x1={state.width} y1="-100" x2={state.width} y2="-60" stroke="#64748b" strokeWidth="6" />
@@ -196,7 +196,7 @@ export default function VisualDesigner() {
                 <g key={`panel-${i}`}>
                   <rect x={currentX} y={frameThickness} width={panelDrawWidth} height={panelDrawHeight} fill={state.systemType === 'SLIDING' && i % 2 !== 0 ? '#f1f5f9' : '#ffffff'} stroke="#94a3b8" strokeWidth="6" />
                   <rect x={currentX + sashThickness} y={frameThickness + sashThickness} width={panelDrawWidth - sashThickness * 2} height={panelDrawHeight - sashThickness * 2} fill="#e0f2fe" fillOpacity="0.6" stroke="#cbd5e1" strokeWidth="2" />
-                  <text x={currentX + panelDrawWidth / 2} y={frameThickness + panelDrawHeight / 2} fill="#0369a1" fontSize="35" fontWeight="bold" textAnchor="middle" className="font-mono" dir="ltr">
+                  <text x={currentX + panelDrawWidth / 2} y={frameThickness + panelDrawHeight / 2} fill="#0369a1" fontSize="35" fontWeight="bold" textAnchor="middle" className="font-mono">
                     G: {calculations.glassWidth.toFixed(0)}
                   </text>
                 </g>
