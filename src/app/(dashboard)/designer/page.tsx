@@ -166,7 +166,7 @@ export default function VisualDesigner() {
         <div className="flex-1 flex items-center justify-center p-8 overflow-hidden">
           <svg className="w-full h-full max-h-[80vh] drop-shadow-xl" viewBox={viewBox} preserveAspectRatio="xMidYMid meet">
             {/* خطوط الأبعاد الفنية — اتجاه ltr صارم لمنع تشوه الأرقام في بيئة RTL */}
-            <g dir="ltr">
+            <g>
               <line x1="0" y1="-80" x2={state.width} y2="-80" stroke="#64748b" strokeWidth="4" />
               <line x1="0" y1="-100" x2="0" y2="-60" stroke="#64748b" strokeWidth="6" />
               <line x1={state.width} y1="-100" x2={state.width} y2="-60" stroke="#64748b" strokeWidth="6" />
