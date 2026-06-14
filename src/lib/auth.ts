@@ -4,6 +4,7 @@ import { compare } from 'bcryptjs';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import type { UserRole } from '@/types';
+import { authConfig } from '@/auth.config';
 
 const LoginSchema = z.object({
   email: z.string().email(),
@@ -11,8 +12,7 @@ const LoginSchema = z.object({
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: 'jwt', maxAge: 8 * 60 * 60 },
-  pages: { signIn: '/login' },
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -44,25 +44,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.uid = user.id;
-        token.role = user.role;
-        token.tenantId = user.tenantId;
-        token.tenantName = user.tenantName;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      session.user.id = token.uid as string;
-      session.user.role = token.role as UserRole;
-      session.user.tenantId = token.tenantId as string;
-      session.user.tenantName = token.tenantName as string;
-      return session;
-    },
-  },
 });
+
+// ===== أدوات الحماية لمسارات الـ API =====
 
 export class AuthError extends Error {
   constructor(message: string, public readonly httpStatus: 401 | 403) {
