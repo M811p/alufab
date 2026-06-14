@@ -1,5 +1,8 @@
-import { auth } from '@/lib/auth';
+import NextAuth from 'next-auth';
+import { authConfig } from '@/auth.config';
 import { NextResponse } from 'next/server';
+
+const { auth } = NextAuth(authConfig);
 
 const PUBLIC_PATHS = ['/login', '/register', '/join', '/api/auth'];
 
@@ -10,7 +13,6 @@ export default auth((req) => {
   if (isPublic || pathname === '/') return NextResponse.next();
 
   if (!req.auth?.user) {
-    // مسارات الـ API تُرجع 401 — الصفحات تُحوَّل لشاشة الدخول مع حفظ الوجهة
     if (pathname.startsWith('/api/')) {
       return NextResponse.json({ error: 'يتطلب تسجيل الدخول' }, { status: 401 });
     }
@@ -23,6 +25,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  // استثناء الملفات الثابتة وأصول Next الداخلية
   matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|woff2?)$).*)'],
 };
