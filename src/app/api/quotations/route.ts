@@ -7,6 +7,29 @@ import { QuotationEngine } from '@/services/quotation-engine';
 import { BomGenerator } from '@/services/bom-generator';
 import { parseDeductionProfile } from '@/types/deduction';
 
+// قبول كلا الاسمين للتوافق مع العملاء القديمة والجديدة
+const CostMatrixSchema = z
+  .object({
+    aluminumPerBar: z.number().positive().optional(),
+    aluminumPerBar6M: z.number().positive().optional(),
+    glassPerSQM: z.number().positive(),
+    spacerPerMeter: z.number().min(0),
+    siliconePerMeter: z.number().min(0),
+    hingeUnitCost: z.number().min(0),
+    rollerUnitCost: z.number().min(0),
+    lockUnitCost: z.number().min(0),
+    gasketPerMeter: z.number().min(0),
+    bottomRailCost: z.number().min(0).optional(),
+  })
+  .transform((data) => ({
+    ...data,
+    aluminumPerBar: data.aluminumPerBar ?? data.aluminumPerBar6M ?? 0,
+  }))
+  .refine((data) => data.aluminumPerBar > 0, {
+    message: 'يجب تحديد تكلفة العود (aluminumPerBar أو aluminumPerBar6M)',
+    path: ['aluminumPerBar'],
+  });
+
 const CreateQuotationSchema = z.object({
   projectId: z.string().uuid(),
   deductionProfileId: z.string().uuid(),
@@ -20,16 +43,8 @@ const CreateQuotationSchema = z.object({
   profitMarginPercent: z.number().min(0).max(100).default(15),
   laborCostPerUnit: z.number().min(0),
   installationCostPerUnit: z.number().min(0),
-  costMatrix: z.object({
-    aluminumPerBar6M: z.number().positive(),
-    glassPerSQM: z.number().positive(),
-    spacerPerMeter: z.number().min(0),
-    siliconePerMeter: z.number().min(0),
-    hingeUnitCost: z.number().min(0),
-    rollerUnitCost: z.number().min(0),
-    lockUnitCost: z.number().min(0),
-    gasketPerMeter: z.number().min(0),
-  }),
+  stockBarLength: z.number().positive().default(5800),
+  costMatrix: CostMatrixSchema,
 });
 
 export async function POST(req: NextRequest) {
@@ -53,13 +68,14 @@ export async function POST(req: NextRequest) {
       transomsCount: body.transomsCount,
       quantity: body.quantity,
       profile,
+      stockBarLength: body.stockBarLength,
       costMatrix: body.costMatrix,
     });
 
     if (calcResult.nesting.oversizeCuts.length > 0) {
       return NextResponse.json(
         {
-          error: 'توجد قطع أطول من القضيب القياسي 6 متر — تتطلب طلب خاص من المورد',
+          error: `توجد ${calcResult.nesting.oversizeCuts.length} قطعة أطول من العود (${body.stockBarLength} مم) — تتطلب طلب توريد مخصص`,
           oversizeCuts: calcResult.nesting.oversizeCuts,
         },
         { status: 422 }
@@ -105,7 +121,7 @@ export async function POST(req: NextRequest) {
     });
 
     const bomItems = BomGenerator.buildDraft(calcResult, profile.systemName, body.glassSpecification, {
-      aluminumPerBar6M: body.costMatrix.aluminumPerBar6M,
+      aluminumPerBar6M: body.costMatrix.aluminumPerBar,
       glassPerSQM: body.costMatrix.glassPerSQM,
     });
     await BomGenerator.persist(quotation.id, bomItems);
