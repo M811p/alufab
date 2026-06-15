@@ -6,6 +6,10 @@ export type ProjectStatus =
   | 'INSTALLATION'
   | 'COMPLETED';
 
+export type WindowType = 'SLIDING' | 'HINGED' | 'FIXED' | 'DOOR' | 'CURTAIN_WALL';
+
+export const DEFAULT_BAR_LENGTH_MM = 5800;
+
 export type MaterialCategory = 'PROFILE' | 'GLASS' | 'HARDWARE' | 'ACCESSORY';
 
 export type UserRole = 'ADMIN' | 'MANAGER' | 'ESTIMATOR' | 'DESIGNER' | 'PRODUCTION';

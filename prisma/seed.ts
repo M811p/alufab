@@ -104,12 +104,17 @@ async function main() {
 
   // ===== أصناف مخزون أولية =====
   const inventory = [
-    { sku: 'ALU-ALUPCO-SG-6M', name: 'قطاع ألمنيوم خام 6 متر — ALUPCO SG — سحاب', category: 'PROFILE', stockLevel: 120, minRequired: 30, unitCost: 185 },
-    { sku: 'GLS-DGU-24', name: 'زجاج مزدوج (دبل) 24 مم', category: 'GLASS', stockLevel: 250, minRequired: 50, unitCost: 145 },
-    { sku: 'GLS-TMP-6', name: 'زجاج مقسّى (سيكوريت) 6 مم', category: 'GLASS', stockLevel: 400, minRequired: 80, unitCost: 75 },
-    { sku: 'HW-ROLLER-STD', name: 'بكرات سحاب', category: 'HARDWARE', stockLevel: 500, minRequired: 100, unitCost: 12 },
-    { sku: 'HW-LOCK-ONU', name: 'أقفال', category: 'HARDWARE', stockLevel: 300, minRequired: 60, unitCost: 35 },
-    { sku: 'ACC-GASKET-MTR', name: 'كاوتشوك (Gasket)', category: 'ACCESSORY', stockLevel: 2000, minRequired: 400, unitCost: 2.5 },
+    { sku: 'ALU-ALUPCO-SG-5.8M', name: 'قطاع ألمنيوم خام — ALUPCO SG — سحاب', category: 'PROFILE', stockLevel: 120, minRequired: 30, unitCost: 185, stockBarLength: 5800, imageUrl: null },
+    { sku: 'ALU-SARAYA-10CM-5.8M', name: 'قطاع ألمنيوم خام — سرايا 10 سم — سحاب', category: 'PROFILE', stockLevel: 80, minRequired: 20, unitCost: 195, stockBarLength: 5800, imageUrl: null },
+    { sku: 'GLS-DGU-24', name: 'زجاج مزدوج (دبل) 24 مم', category: 'GLASS', stockLevel: 250, minRequired: 50, unitCost: 145, stockBarLength: 5800, imageUrl: null },
+    { sku: 'GLS-TMP-6', name: 'زجاج مقسّى (سيكوريت) 6 مم', category: 'GLASS', stockLevel: 400, minRequired: 80, unitCost: 75, stockBarLength: 5800, imageUrl: null },
+    { sku: 'GLS-LOWE-DGU-24', name: 'زجاج مزدوج عاكس Low-E 24 مم', category: 'GLASS', stockLevel: 120, minRequired: 25, unitCost: 210, stockBarLength: 5800, imageUrl: null },
+    { sku: 'HW-ROLLER-STD', name: 'بكرات سحاب', category: 'HARDWARE', stockLevel: 500, minRequired: 100, unitCost: 12, stockBarLength: 5800, imageUrl: null },
+    { sku: 'HW-LOCK-ONU', name: 'أقفال', category: 'HARDWARE', stockLevel: 300, minRequired: 60, unitCost: 35, stockBarLength: 5800, imageUrl: null },
+    { sku: 'HW-HINGE-3INCH', name: 'مفصلات 3 بوصة', category: 'HARDWARE', stockLevel: 400, minRequired: 80, unitCost: 18, stockBarLength: 5800, imageUrl: null },
+    { sku: 'ACC-GASKET-MTR', name: 'كاوتشوك (Gasket)', category: 'ACCESSORY', stockLevel: 2000, minRequired: 400, unitCost: 2.5, stockBarLength: 5800, imageUrl: null },
+    { sku: 'ACC-SPACER-MTR', name: 'سبيسر ألمنيوم (Spacer Bar) DGU', category: 'ACCESSORY', stockLevel: 1000, minRequired: 200, unitCost: 8, stockBarLength: 5800, imageUrl: null },
+    { sku: 'ACC-CORNER-CLEAT', name: 'زوايا التجميع (Corner Cleat)', category: 'ACCESSORY', stockLevel: 2000, minRequired: 500, unitCost: 3, stockBarLength: 5800, imageUrl: null },
   ] as const;
 
   for (const item of inventory) {
