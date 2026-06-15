@@ -12,6 +12,7 @@ model Tenant {
   name              String
   crNumber          String?
   logoUrl           String?
+  floorPricePercent Float              @default(20.0)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   users             User[]
@@ -43,7 +44,6 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// دعوات انضمام أعضاء الفريق — الرمز يُخزَّن مُجَزّأً (SHA-256) ولا يُعرَض إلا مرة واحدة
 model Invitation {
   id          String    @id @default(uuid())
   tenantId    String
@@ -75,6 +75,7 @@ enum SystemType {
   SLIDING
   HINGED
   FIXED
+  DOOR
   CURTAIN_WALL
 }
 
@@ -110,7 +111,9 @@ enum ProjectStatus {
 
 model Project {
   id         String        @id @default(uuid())
+  projectNo  String?       @unique
   name       String
+  location   String        @default("")
   status     ProjectStatus @default(DRAFT)
   tenantId   String
   tenant     Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -152,6 +155,11 @@ model QuotationItem {
   glassSpecification String
   quantity           Int              @default(1)
   calculatedCost     Float            @default(0.0)
+  internalMarkupType  String?
+  internalMarkupValue Float           @default(0.0)
+  clientDiscountType  String?
+  clientDiscountValue Float           @default(0.0)
+  finalUnitPrice      Float           @default(0.0)
 }
 
 model BOM {
@@ -193,16 +201,18 @@ model CuttingListElement {
 }
 
 model InventoryItem {
-  id          String           @id @default(uuid())
-  tenantId    String
-  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  sku         String
-  name        String
-  category    MaterialCategory
-  stockLevel  Float            @default(0.0)
-  minRequired Float            @default(0.0)
-  unitCost    Float            @default(0.0)
-  updatedAt   DateTime         @updatedAt
+  id             String           @id @default(uuid())
+  tenantId       String
+  tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sku            String
+  name           String
+  category       MaterialCategory
+  imageUrl       String?
+  stockBarLength Float            @default(5800)
+  stockLevel     Float            @default(0.0)
+  minRequired    Float            @default(0.0)
+  unitCost       Float            @default(0.0)
+  updatedAt      DateTime         @updatedAt
 
   @@unique([tenantId, sku])
 }
