@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export type SystemType = 'SLIDING' | 'HINGED' | 'FIXED' | 'CURTAIN_WALL';
+export type SystemType = 'SLIDING' | 'HINGED' | 'FIXED' | 'DOOR' | 'CURTAIN_WALL';
 
 export const HardwareFormulaRulesSchema = z.object({
   hinges: z.object({
