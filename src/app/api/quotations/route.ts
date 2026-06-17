@@ -69,7 +69,17 @@ export async function POST(req: NextRequest) {
       quantity: body.quantity,
       profile,
       stockBarLength: body.stockBarLength,
-      costMatrix: body.costMatrix,
+      costMatrix: {
+        aluminumPerBar: body.costMatrix.aluminumPerBar,
+        glassPerSQM: body.costMatrix.glassPerSQM,
+        spacerPerMeter: body.costMatrix.spacerPerMeter,
+        siliconePerMeter: body.costMatrix.siliconePerMeter,
+        hingeUnitCost: body.costMatrix.hingeUnitCost,
+        rollerUnitCost: body.costMatrix.rollerUnitCost,
+        lockUnitCost: body.costMatrix.lockUnitCost,
+        gasketPerMeter: body.costMatrix.gasketPerMeter,
+        bottomRailCost: body.costMatrix.bottomRailCost,
+      },
     });
 
     if (calcResult.nesting.oversizeCuts.length > 0) {
